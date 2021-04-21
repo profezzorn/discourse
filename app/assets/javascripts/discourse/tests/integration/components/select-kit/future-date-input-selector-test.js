@@ -13,7 +13,7 @@ import I18n from "I18n";
 function assertOptionExists(assert, name, num) {
   assert.ok(
     query(`ul.select-kit-collection li:nth-child(${num}) span`).innerText ===
-      name,
+      I18n.t(`topic.auto_update_input.${name}`),
     `"${name}" is rendered`
   );
 }
@@ -64,57 +64,19 @@ discourseModule(
       async test(assert) {
         await this.subject.expand();
 
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.tomorrow"),
-          1
-        );
-
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.next_week"),
-          2
-        );
-
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.two_weeks"),
-          3
-        );
-
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.next_month"),
-          4
-        );
-
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.two_months"),
-          5
-        );
-
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.three_months"),
-          6
-        );
-
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.four_months"),
-          7
-        );
-
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.six_months"),
-          8
-        );
+        assertOptionExists(assert, "later_today", 1);
+        assertOptionExists(assert, "tomorrow", 2);
+        assertOptionExists(assert, "next_week", 3);
+        assertOptionExists(assert, "two_weeks", 4);
+        assertOptionExists(assert, "next_month", 5);
+        assertOptionExists(assert, "two_months", 6);
+        assertOptionExists(assert, "three_months", 7);
+        assertOptionExists(assert, "four_months", 8);
+        assertOptionExists(assert, "six_months", 9);
 
         assert.notOk(
-          query(`ul.select-kit-collection li:nth-child(9) span`),
-          "9th option doesn't exist"
+          query(`ul.select-kit-collection li:nth-child(10) span`),
+          "10th option doesn't exist"
         );
       },
     });
@@ -129,21 +91,12 @@ discourseModule(
       async test(assert) {
         await this.subject.expand();
 
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.one_year"),
-          9
-        );
-
-        assertOptionExists(
-          assert,
-          I18n.t("topic.auto_update_input.forever"),
-          10
-        );
+        assertOptionExists(assert, "one_year", 10);
+        assertOptionExists(assert, "forever", 11);
 
         assert.notOk(
-          query(`ul.select-kit-collection li:nth-child(11) span`),
-          "11th option doesn't exist"
+          query(`ul.select-kit-collection li:nth-child(12) span`),
+          "12th option doesn't exist"
         );
       },
     });
