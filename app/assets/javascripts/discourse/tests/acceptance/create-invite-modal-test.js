@@ -1,5 +1,9 @@
 import { click, fillIn, visit } from "@ember/test-helpers";
-import { acceptance } from "discourse/tests/helpers/qunit-helpers";
+import {
+  acceptance,
+  query,
+  queryAll,
+} from "discourse/tests/helpers/qunit-helpers";
 import { test } from "qunit";
 import I18n from "I18n";
 
@@ -101,6 +105,40 @@ acceptance("Invites - Create & Edit Invite Modal", function (needs) {
       find("#modal-alert").text(),
       I18n.t("user.invited.invite.blank_email")
     );
+  });
+
+  test("timeframe options", async function (assert) {
+    await visit("/u/eviltrout/invited/pending");
+    await click(".invite-controls .btn:first-child");
+    await click("#invite-show-advanced a");
+    await click(".future-date-input-selector-header");
+
+    assert.equal(
+      query(".future-date-input-selector-header").getAttribute("aria-expanded"),
+      "true",
+      "Selector is expanded"
+    );
+
+    const options = Array.from(
+      queryAll(`ul.select-kit-collection li span.name`).map((_, x) =>
+        x.innerText.trim()
+      )
+    );
+
+    const expected = [
+      I18n.t("topic.auto_update_input.tomorrow"),
+      I18n.t("topic.auto_update_input.later_this_week"),
+      I18n.t("topic.auto_update_input.next_week"),
+      I18n.t("topic.auto_update_input.two_weeks"),
+      I18n.t("topic.auto_update_input.next_month"),
+      I18n.t("topic.auto_update_input.two_months"),
+      I18n.t("topic.auto_update_input.three_months"),
+      I18n.t("topic.auto_update_input.four_months"),
+      I18n.t("topic.auto_update_input.six_months"),
+      I18n.t("topic.auto_update_input.pick_date_and_time"),
+    ];
+
+    assert.deepEqual(options, expected);
   });
 });
 
