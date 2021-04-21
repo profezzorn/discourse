@@ -2,17 +2,35 @@ import {
   acceptance,
   query,
   queryAll,
+  updateCurrentUser,
 } from "discourse/tests/helpers/qunit-helpers";
 import { click, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import I18n from "I18n";
 
-acceptance("Admin - Silence User", function (needs) {
+acceptance("Topic - Set slow mode", function (needs) {
   needs.user();
+  needs.pretender((server, helper) => {
+    server.post("/t/280/timer", () =>
+      helper.response({
+        success: "OK",
+        execute_at: new Date(
+          new Date().getTime() + 1 * 60 * 60 * 1000
+        ).toISOString(),
+        duration_minutes: 1440,
+        based_on_last_post: false,
+        closed: false,
+        category_id: null,
+      })
+    );
+  });
 
-  test("silence a user - timeframe options", async function (assert) {
-    await visit("/admin/users/1234/regular");
-    await click(".silence-user");
+  test("timeframe options", async function (assert) {
+    updateCurrentUser({ moderator: true });
+    await visit("/t/internationalization-localization");
+    await click(".toggle-admin-menu");
+    await click(".topic-admin-slow-mode button");
+
     await click(".future-date-input-selector-header");
 
     assert.equal(
@@ -37,8 +55,6 @@ acceptance("Admin - Silence User", function (needs) {
       I18n.t("topic.auto_update_input.three_months"),
       I18n.t("topic.auto_update_input.four_months"),
       I18n.t("topic.auto_update_input.six_months"),
-      I18n.t("topic.auto_update_input.one_year"),
-      I18n.t("topic.auto_update_input.forever"),
       I18n.t("topic.auto_update_input.pick_date_and_time"),
     ];
 
