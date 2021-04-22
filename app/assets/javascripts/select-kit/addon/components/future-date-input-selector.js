@@ -46,7 +46,7 @@ export const TIMEFRAMES = [
   buildTimeframe({
     id: "next_week",
     format: "ddd, h a",
-    enabled: (opts) => opts.day !== 7,
+    enabled: (opts) => opts.day !== 7, // todo momentjs never returns 7, 0 is Sunday, 6 is Saturday
     when: (time, timeOfDay) =>
       time.add(1, "week").day(1).hour(timeOfDay).minute(0),
     icon: "briefcase",
@@ -116,6 +116,7 @@ export const TIMEFRAMES = [
 ];
 
 let _timeframeById = null;
+
 export function timeframeDetails(id) {
   if (!_timeframeById) {
     _timeframeById = {};
@@ -130,6 +131,7 @@ export default ComboBoxComponent.extend(DatetimeMixin, {
   pluginApiIdentifiers: ["future-date-input-selector"],
   classNames: ["future-date-input-selector"],
   isCustom: equal("value", "pick_date_and_time"),
+  frozenTime: null,
 
   selectKitOptions: {
     autoInsertNoneItem: false,
@@ -141,8 +143,8 @@ export default ComboBoxComponent.extend(DatetimeMixin, {
     return "future-date-input-selector/future-date-input-selector-row";
   },
 
-  content: computed("statusType", function () {
-    const now = moment();
+  content: computed("frozenTime", "statusType", function () {
+    const now = this.frozenTime ?? moment();
     const opts = {
       now,
       day: now.day(),
