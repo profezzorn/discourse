@@ -70,7 +70,6 @@ discourseModule(
         );
 
         const expected = [
-          I18n.t("topic.auto_update_input.later_today"),
           I18n.t("topic.auto_update_input.tomorrow"),
           I18n.t("topic.auto_update_input.next_week"),
           I18n.t("topic.auto_update_input.two_weeks"),
@@ -102,7 +101,6 @@ discourseModule(
         );
 
         const expected = [
-          I18n.t("topic.auto_update_input.later_today"),
           I18n.t("topic.auto_update_input.tomorrow"),
           I18n.t("topic.auto_update_input.next_week"),
           I18n.t("topic.auto_update_input.two_weeks"),
