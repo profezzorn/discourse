@@ -1848,6 +1848,9 @@ developer:
   enable_safe_mode:
     default: true
     client: true
+  ignore_anonymous_pageviews:
+    default: false
+    hidden: true
 
 embedding:
   embed_by_username:
