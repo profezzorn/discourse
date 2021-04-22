@@ -46,8 +46,8 @@ acceptance("Topic - Set slow mode", function (needs) {
     );
 
     const expected = [
+      I18n.t("topic.auto_update_input.later_today"),
       I18n.t("topic.auto_update_input.tomorrow"),
-      I18n.t("topic.auto_update_input.later_this_week"),
       I18n.t("topic.auto_update_input.next_week"),
       I18n.t("topic.auto_update_input.two_weeks"),
       I18n.t("topic.auto_update_input.next_month"),
