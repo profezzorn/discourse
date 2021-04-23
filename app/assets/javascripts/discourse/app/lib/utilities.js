@@ -443,7 +443,7 @@ export function postRNWebviewMessage(prop, value) {
   }
 }
 
-const CODE_BLOCKS_REGEX = /^(    |\t).*|`[^`]+`|^```[^]*?^```|\[code\][^]*?\[\/code\]/gm;
+const CODE_BLOCKS_REGEX = /^(    |\t).*|`[^`]+`|^```[^]*?^```|\[code\][^]*?\[\/code\]|StylePtr<[^]*?>()/gm;
 //                        |      ^     |   ^   |      ^      |           ^           |
 //                               |         |          |                  |
 //                               |         |          |       code blocks between [code]
